@@ -1,20 +1,22 @@
 import { client } from "@/lib/r2-bucket";
 import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { redirect } from "next/navigation";
-import { useState } from "react";
 
 export default function Home() {
   // S3 へのアップロード
   const uploadImage = async (formData: FormData) => {
     "use server";
 
-    const videoFile = formData.get("video") as File;
-    const bufferedVideoFile = await videoFile.arrayBuffer();
+    const videoFile = formData.get("video") as File | null;
+
+    if (!videoFile) {
+      throw new Error("動画が選択されていません");
+    }
 
     const uploadParams: PutObjectCommandInput = {
       Bucket: "shibalab-reincarnation",
       Key: videoFile.name,
-      Body: bufferedVideoFile,
+      Body: Buffer.from(await videoFile.arrayBuffer()),
       ContentType: videoFile.type,
       ACL: "public-read",
     };
