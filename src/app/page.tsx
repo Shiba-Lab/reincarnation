@@ -23,9 +23,7 @@ export default function Home() {
     const command = new PutObjectCommand(uploadParams);
     await client.send(command);
 
-    redirect(
-      `https://shibalab-reincarnation-r2.shogo0x2e.com/${videoFile.name}`,
-    );
+    redirect(`/uploaded-movie/${encodeURIComponent(videoFile.name)}`);
   };
 
   return (
