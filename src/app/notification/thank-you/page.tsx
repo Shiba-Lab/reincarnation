@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
-
-export default function Component() {
+const ThankYouPage = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
       <div className="max-w-md p-8 bg-white rounded-lg shadow-md dark:bg-gray-900">
@@ -24,4 +22,6 @@ export default function Component() {
       </div>
     </main>
   );
-}
+};
+
+export default ThankYouPage;
