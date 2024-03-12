@@ -4,9 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
   await prisma.uploadedMovie.create({
     data: {
-      url: `test`,
-      startedAt: new Date(),
-      shutteredAt: new Date(),
+      url: "test",
     },
   });
 
