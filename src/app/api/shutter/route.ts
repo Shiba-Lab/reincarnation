@@ -2,6 +2,14 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
+  await prisma.uploadedMovie.create({
+    data: {
+      url: `test`,
+      startedAt: new Date(),
+      shutteredAt: new Date(),
+    },
+  });
+
   const shutterMovie = await prisma.uploadedMovie.findFirst({
     orderBy: {
       shutteredAt: { sort: "desc", nulls: "first" },
