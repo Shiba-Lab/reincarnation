@@ -5,9 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import path from "path";
-import { prisma } from "@/lib/prisma";
 
-export default function Component() {
+export default async function Component() {
   // S3 へのアップロード
   const uploadImage = async (formData: FormData) => {
     "use server";
@@ -30,14 +29,9 @@ export default function Component() {
     const command = new PutObjectCommand(uploadParams);
     await client.send(command);
 
-    await prisma.uploadedMovie.create({
-      data: {
-        url: `https://shibalab-reincarnation-r2.shogo0x2e.com/${filename}`,
-      },
-    });
-
     redirect(`/notification/processing`);
   };
+
   return (
     <div className="w-full max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
       <div className="text-center">
