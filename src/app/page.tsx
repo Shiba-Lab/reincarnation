@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import path from "path";
-import { prisma } from "@/lib/prisma";
 
 export default async function Component() {
   // S3 へのアップロード
@@ -30,16 +29,8 @@ export default async function Component() {
     const command = new PutObjectCommand(uploadParams);
     await client.send(command);
 
-    await prisma.uploadedMovie.create({
-      data: {
-        url: `https://shibalab-reincarnation-r2.shogo0x2e.com/${filename}`,
-      },
-    });
-
     redirect(`/notification/processing`);
   };
-
-  const accessHistory = await prisma.uploadedMovie.findMany();
 
   return (
     <div className="w-full max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
@@ -71,11 +62,6 @@ export default async function Component() {
           </div>
         </form>
       </div>
-      {accessHistory.map((history) => (
-        <p key={history.id}>
-          {new Date(history.createdAt).toLocaleTimeString("ja-JP")}
-        </p>
-      ))}
     </div>
   );
 }
