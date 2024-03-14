@@ -6,8 +6,18 @@ import { useEffect, useState } from "react";
 
 const AdminPage = () => {
   const [connected, setConnected] = useState(false);
+
+  const handleConnect = () => {
+    socket.connect();
+  };
+
+  const handleDisconnect = () => {
+    socket.disconnect();
+  };
+
   useEffect(() => {
     const onConnected = () => {
+      console.log("socket.id", socket.id);
       setConnected(true);
     };
     const onDisconnected = () => {
@@ -16,6 +26,26 @@ const AdminPage = () => {
 
     socket.on("connect", onConnected);
     socket.on("disconnect", onDisconnected);
+
+    socket.on("photo", (url: string) => {
+      console.log("photo", url);
+    });
+
+    socket.on("videoSettled", (message: string) => {
+      console.log("videoSettled", message);
+    });
+
+    socket.on("light", (message: string) => {
+      console.log("light", message);
+    });
+
+    socket.on("success", (message: string) => {
+      console.log("success", message);
+    });
+
+    socket.on("error", (message: string) => {
+      console.log("error", message);
+    });
 
     return () => {
       socket.off("connect", onConnected);
@@ -31,24 +61,36 @@ const AdminPage = () => {
         </h2>
         <div className="flex items-center justify-between mb-4">
           <span className="text-lg font-medium dark:text-gray-50">
-            WebSocket Status:
+            WebSocket サーバ:
           </span>
           {connected ? (
-            <Badge variant="normal">Connected</Badge>
+            <Badge variant="normal">接続済み</Badge>
           ) : (
-            <Badge variant="alert">Disconnected</Badge>
+            <Badge variant="alert">切断済み</Badge>
           )}
         </div>
-        <div className="text-right">{connected && socket.id}</div>
+        <div className="text-right">{connected && `ID: ${socket.id}`}</div>
         <div className="flex items-center justify-between my-4">
           <span className="text-lg font-medium dark:text-gray-50">
-            Process Status:
+            現在のステータス:
           </span>
           <Badge variant="caution">Processing</Badge>
         </div>
         <div className="flex justify-center">
-          <Button className="mr-2">Connect</Button>
-          <Button variant="outline">Disconnect</Button>
+          <Button
+            className="mr-2"
+            onClick={handleConnect}
+            disabled={socket.id !== undefined}
+          >
+            Connect
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleDisconnect}
+            disabled={socket.id === undefined}
+          >
+            Disconnect
+          </Button>
         </div>
       </div>
     </div>

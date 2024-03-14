@@ -29,6 +29,15 @@ export default async function Component() {
     const command = new PutObjectCommand(uploadParams);
     await client.send(command);
 
+    // ws サーバにアップロードしたファイル名を通知
+    fetch("/api/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ clientId: filename }),
+    });
+
     redirect(`/notification/processing`);
   };
 
