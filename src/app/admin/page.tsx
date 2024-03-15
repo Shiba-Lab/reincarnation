@@ -188,8 +188,10 @@ const AdminPage = () => {
                   ) : (
                     <Button
                       onClick={() => {
-                        router.push(
+                        // 新規タブで画像を開く
+                        window.open(
                           `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/${video.imageUrl!}`,
+                          "_blank",
                         );
                       }}
                       variant="outline"
