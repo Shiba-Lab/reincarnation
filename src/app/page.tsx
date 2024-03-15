@@ -11,32 +11,24 @@ export default async function Component() {
   const uploadImage = async (formData: FormData) => {
     "use server";
 
-    const videoFile = formData.get("video") as File | null;
+    const videoFile = formData.get("video");
 
     if (!videoFile) {
       throw new Error("動画が選択されていません");
     }
 
-    const filename = crypto.randomUUID() + path.extname(videoFile.name);
-
-    const uploadParams: PutObjectCommandInput = {
-      Bucket: "shibalab-reincarnation",
-      Key: filename,
-      Body: Buffer.from(await videoFile.arrayBuffer()),
-      ContentType: videoFile.type,
-      ACL: "public-read",
-    };
-    const command = new PutObjectCommand(uploadParams);
-    await client.send(command);
-
-    // ws サーバにアップロードしたファイル名を通知
-    fetch("/api/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/api/upload`,
+      {
+        method: "POST",
+        body: formData,
       },
-      body: JSON.stringify({ clientId: filename }),
-    });
+    );
+
+    if (!response.ok) {
+      console.error(response);
+      throw new Error("動画のアップロードに失敗しました");
+    }
 
     redirect(`/notification/processing`);
   };
