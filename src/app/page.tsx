@@ -3,9 +3,11 @@ import { redirect, useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export default async function Component() {
   const router = useRouter();
+  const [isPushed, setIsPushed] = useState(false);
 
   const handleAction = async (formData: FormData) => {
     if (!formData.get("video")) {
@@ -52,7 +54,12 @@ export default async function Component() {
             <Input accept="video/*" name="video" type="file" />
           </div>
           <div className="flex justify-center">
-            <Button className="w-full max-w-md" type="submit">
+            <Button
+              className="w-full max-w-md"
+              type="submit"
+              disabled={isPushed}
+              onClick={() => setIsPushed(true)}
+            >
               撮影準備に進む
             </Button>
           </div>
