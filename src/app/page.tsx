@@ -1,20 +1,15 @@
-import { client } from "@/lib/r2-bucket";
-import { PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
-import { redirect } from "next/navigation";
+"use client";
+import { redirect, useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import path from "path";
 
 export default async function Component() {
-  // S3 へのアップロード
-  const uploadImage = async (formData: FormData) => {
-    "use server";
+  const router = useRouter();
 
-    const videoFile = formData.get("video");
-
-    if (!videoFile) {
-      throw new Error("動画が選択されていません");
+  const handleAction = async (formData: FormData) => {
+    if (!formData.get("video")) {
+      throw new Error("動画を選択してください");
     }
 
     const response = await fetch(
@@ -30,7 +25,7 @@ export default async function Component() {
       throw new Error("動画のアップロードに失敗しました");
     }
 
-    redirect(`/notification/processing`);
+    router.push("/notification/processing");
   };
 
   return (
@@ -51,7 +46,7 @@ export default async function Component() {
         </p>
       </div>
       <div className="mt-12">
-        <form className="grid gap-6" action={uploadImage}>
+        <form className="grid gap-6" action={handleAction}>
           <div className="grid w-full max-w-sm items-center gap-1.5 mx-auto">
             <Label htmlFor="video">Video</Label>
             <Input accept="video/*" name="video" type="file" />
