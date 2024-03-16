@@ -28,6 +28,10 @@ const AdminStartPage = ({ params }: Props) => {
     const data = await res.text();
     setStarted(true);
     setStartResponse(data);
+
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
   };
 
   return (
