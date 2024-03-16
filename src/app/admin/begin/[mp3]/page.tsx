@@ -5,15 +5,19 @@ import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
-const AdminStartPage = () => {
-  const searchParams = useSearchParams();
+type Props = {
+  params: {
+    mp3: string;
+  };
+};
 
+const AdminStartPage = ({ params }: Props) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [videoUrl, setVideoUrl] = useState("");
   const [started, setStarted] = useState(false);
   const [startResponse, setStartResponse] = useState("");
 
-  const mp3Url = searchParams.get("mp3Url") || "";
+  const mp3Url = params.mp3;
 
   const handleStart = async () => {
     console.log("start");
