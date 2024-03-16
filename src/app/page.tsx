@@ -1,5 +1,5 @@
 "use client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,16 @@ export default async function Component() {
     if (!formData.get("video")) {
       throw new Error("動画を選択してください");
     }
+
+    fetch(`${process.env.NEXT_PUBLIC_DISCORD_WEBHOOK}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: "動画のアップロードが開始されました。",
+      }),
+    });
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/api/upload`,
