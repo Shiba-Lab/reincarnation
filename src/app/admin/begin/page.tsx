@@ -42,7 +42,7 @@ const AdminStartPage = () => {
         Start
       </Button>
       <audio ref={audioRef} controls loop style={{ pointerEvents: "none" }}>
-        <source src={mp3Url} />
+        {mp3Url !== "" && <source src={mp3Url} />}
       </audio>
       <div>{startResponse}</div>
     </div>
