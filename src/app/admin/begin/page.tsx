@@ -41,9 +41,11 @@ const AdminStartPage = () => {
       <Button onClick={handleStart} disabled={started}>
         Start
       </Button>
-      <audio ref={audioRef} controls loop style={{ pointerEvents: "none" }}>
-        {mp3Url !== "" && <source src={mp3Url} />}
-      </audio>
+      {mp3Url !== "" && (
+        <audio ref={audioRef} controls loop style={{ pointerEvents: "none" }}>
+          {mp3Url !== "" && <source src={mp3Url} />}
+        </audio>
+      )}
       <div>{startResponse}</div>
     </div>
   );
