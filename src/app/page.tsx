@@ -27,7 +27,7 @@ export default async function Component() {
       throw new Error("動画のアップロードに失敗しました");
     }
 
-    router.push("/notification/processing");
+    router.push("/camera");
   };
 
   return (

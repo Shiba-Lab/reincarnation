@@ -2,14 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
 const AdminStartPage = () => {
+  const searchParams = useSearchParams();
+
   const audioRef = useRef<HTMLAudioElement>(null);
   const [videoUrl, setVideoUrl] = useState("");
-  const [mp3Url, setMp3Url] = useState("");
   const [started, setStarted] = useState(false);
   const [startResponse, setStartResponse] = useState("");
+
+  const mp3Url = searchParams.get("mp3Url") || "";
 
   const handleStart = async () => {
     console.log("start");
@@ -31,21 +35,18 @@ const AdminStartPage = () => {
           setVideoUrl(e.target.value);
         }}
       />
-      <Input
-        type="text"
-        placeholder="mp3 url"
-        onChange={(e) => {
-          setMp3Url(e.target.value);
-        }}
-      />
       <Button onClick={handleStart} disabled={started}>
         Start
       </Button>
-      {mp3Url !== "" && (
-        <audio ref={audioRef} controls loop style={{ pointerEvents: "none" }}>
-          {mp3Url !== "" && <source src={mp3Url} />}
-        </audio>
-      )}
+      <audio
+        ref={audioRef}
+        controls
+        autoPlay
+        loop
+        style={{ pointerEvents: "none" }}
+      >
+        {mp3Url !== "" && <source src={`/audios/${mp3Url}`} />}
+      </audio>
       <div>{startResponse}</div>
     </div>
   );
