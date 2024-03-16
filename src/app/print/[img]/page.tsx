@@ -19,7 +19,7 @@ const PrintPage = ({ params }: Props) => {
       <div className="w-full h-full flex flex-col justify-center items-center">
         <img
           className="h-full w-full object-contain mb-16"
-          src={`https://shibalab-reincarnation-ws.fly.dev/${params.img}`}
+          src={`https://shibalab-reincarnation-ws.fly.dev/photos/${params.img}`}
         ></img>
         <p>2024/03/17 reincarnation</p>
       </div>
