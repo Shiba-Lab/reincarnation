@@ -14,15 +14,18 @@ export default async function Component() {
       throw new Error("動画を選択してください");
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_DISCORD_WEBHOOK}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch(
+      "https://discord.com/api/webhooks/1218182319312080959/02OMNPDCSae-rHEzGZymGDRDgtwf7DnOrD4IZCg0Iid6uH3uog-05hIgFD_xHaTL9Rw2",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: "動画のアップロードが開始されました。",
+        }),
       },
-      body: JSON.stringify({
-        content: "動画のアップロードが開始されました。",
-      }),
-    });
+    );
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/api/upload`,
