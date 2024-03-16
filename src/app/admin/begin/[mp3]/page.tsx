@@ -46,13 +46,7 @@ const AdminStartPage = ({ params }: Props) => {
       <Button onClick={handleStart} disabled={started}>
         Start
       </Button>
-      <audio
-        ref={audioRef}
-        controls
-        autoPlay
-        loop
-        style={{ pointerEvents: "none" }}
-      >
+      <audio ref={audioRef} controls autoPlay loop>
         {mp3Url !== "" && (
           <source
             src={`${process.env.NEXT_PUBLIC_WS_SERVER_URL}/audios/${mp3Url}`}
