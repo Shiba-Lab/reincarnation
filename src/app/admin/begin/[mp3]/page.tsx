@@ -22,7 +22,7 @@ const AdminStartPage = ({ params }: Props) => {
   const handleStart = async () => {
     console.log("start");
     const res = await fetch(
-      `https://shibalab-reincarnation-ws.fly.dev/api/light?id=${videoUrl}`,
+      `https://shibalab-reincarnation-ws.fly.dev/api/begin?id=${videoUrl}`,
     );
 
     const data = await res.text();
