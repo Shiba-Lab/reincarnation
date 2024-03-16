@@ -49,7 +49,11 @@ const AdminStartPage = ({ params }: Props) => {
         loop
         style={{ pointerEvents: "none" }}
       >
-        {mp3Url !== "" && <source src={`/audios/${mp3Url}`} />}
+        {mp3Url !== "" && (
+          <source
+            src={`${process.env.NEXT_PUBLIC_WS_SERVER_URL}/audios/${mp3Url}`}
+          />
+        )}
       </audio>
       <div>{startResponse}</div>
     </div>
