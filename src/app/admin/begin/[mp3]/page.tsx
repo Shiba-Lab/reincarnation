@@ -7,22 +7,21 @@ import { useRef, useState } from "react";
 type Props = {
   params: {
     mp3: string;
-    video: string;
   };
 };
 
 const AdminStartPage = ({ params }: Props) => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [videoUrl, setVideoUrl] = useState("");
   const [started, setStarted] = useState(false);
   const [startResponse, setStartResponse] = useState("");
 
   const mp3Url = params.mp3;
-  const videoUrl = params.video;
 
   const handleStart = async () => {
     console.log("start");
     const res = await fetch(
-      `https://shibalab-reincarnation-ws.fly.dev/api/begin?id=${videoUrl}`,
+      `https://shibalab-reincarnation-ws.fly.dev/api/light?id=${videoUrl}`,
     );
 
     const data = await res.text();
@@ -36,6 +35,13 @@ const AdminStartPage = ({ params }: Props) => {
 
   return (
     <div>
+      <Input
+        type="text"
+        placeholder="video url"
+        onChange={(e) => {
+          setVideoUrl(e.target.value);
+        }}
+      />
       <Button onClick={handleStart} disabled={started}>
         Start
       </Button>
