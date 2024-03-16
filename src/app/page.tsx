@@ -14,8 +14,6 @@ export default async function Component() {
       throw new Error("動画を選択してください");
     }
 
-    setIsPushed(true);
-
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/api/upload`,
       {

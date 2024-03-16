@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 type status = "ready" | "processing" | "done";
 
@@ -24,7 +24,6 @@ type VideoStatus = {
 };
 
 const AdminPage = () => {
-  const router = useRouter();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [connected, setConnected] = useState(false);
   const [uploadedVideos, setUploadedVideos] = useState<VideoStatus[]>([]);
@@ -173,7 +172,7 @@ const AdminPage = () => {
                 </TableCell>
                 <TableCell>{video.filename}</TableCell>
                 <TableCell>
-                  {video.status === "ready" ? (
+                  {video.status === "ready" && (
                     <div>
                       <Button
                         onClick={() => {
@@ -183,7 +182,8 @@ const AdminPage = () => {
                         再生
                       </Button>
                     </div>
-                  ) : video.status === "processing" ? (
+                  )}
+                  {video.status === "processing" ? (
                     <Badge variant="alert">再生中</Badge>
                   ) : (
                     <Button
