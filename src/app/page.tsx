@@ -3,10 +3,12 @@ import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
 
 export default async function Component() {
   const router = useRouter();
+  const indicatorRef = useRef<HTMLDivElement>(null);
   const [isPushed, setIsPushed] = useState(false);
 
   const handleAction = async (formData: FormData) => {
@@ -27,15 +29,26 @@ export default async function Component() {
       },
     );
 
-    const response = await fetch(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_WS_SERVER_URL}/api/upload`,
+      formData,
       {
-        method: "POST",
-        body: formData,
+        onUploadProgress: (progressEvent) => {
+          if (!indicatorRef.current) return;
+          if (!progressEvent.total) {
+            indicatorRef.current.innerHTML = "アップロード中...";
+            return;
+          }
+
+          const percent = Math.floor(
+            (progressEvent.loaded / progressEvent.total) * 100,
+          );
+          indicatorRef.current.innerHTML = `アップロード中... ${percent}%`;
+        },
       },
     );
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       console.error(response);
       throw new Error("動画のアップロードに失敗しました");
     }
@@ -75,6 +88,7 @@ export default async function Component() {
               撮影準備に進む
             </Button>
           </div>
+          <div ref={indicatorRef}></div>
         </form>
       </div>
     </div>
